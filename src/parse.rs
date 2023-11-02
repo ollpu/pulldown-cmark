@@ -575,6 +575,7 @@ impl<'input, 'callback> Parser<'input, 'callback> {
                     let mut found = false;
                     if display || can_open {
                         // scan tree for next $ or $$
+                        let mut first_item = true;
                         while let Some(scan_ix) = scan {
                             if let ItemBody::MaybeMath(followed_by_dollar, _, can_close) =
                                 self.tree[scan_ix].item.body
@@ -582,6 +583,10 @@ impl<'input, 'callback> Parser<'input, 'callback> {
                                 if !display && !can_close {
                                     // inline math can't contain $, stop scanning
                                     // also avoids quadratic behavior
+                                    break;
+                                }
+                                if display && followed_by_dollar && first_item {
+                                    // this is the next sibling, so the item would be empty
                                     break;
                                 }
                                 if !display || followed_by_dollar {
@@ -612,6 +617,7 @@ impl<'input, 'callback> Parser<'input, 'callback> {
                                     break;
                                 }
                             }
+                            first_item = false;
                             scan = self.tree[scan_ix].next;
                         }
                     }
