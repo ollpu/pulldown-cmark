@@ -608,9 +608,21 @@ impl<'input, 'callback> Parser<'input, 'callback> {
                                     };
                                     let span_start = self.tree[cur_ix].item.end;
                                     let span_end = self.tree[scan_ix].item.start;
-                                    let cow_ix = self
-                                        .allocs
-                                        .allocate_cow(self.text[span_start..span_end].into());
+                                    let content = &self.text[span_start..span_end];
+                                    // TODO: this should be unified with make_code_span,
+                                    // but I want to avoid #716
+                                    let cow = if self.tree.is_in_table() && content.contains('|') {
+                                        let mut buf: String = content
+                                            .split(r#"\|"#)
+                                            .flat_map(|part| [part, "|"].into_iter())
+                                            .collect();
+                                        // remove added extra pipe
+                                        buf.pop();
+                                        buf.into()
+                                    } else {
+                                        content.into()
+                                    };
+                                    let cow_ix = self.allocs.allocate_cow(cow);
                                     self.tree[cur_ix].item.body = ItemBody::Math(style, cow_ix);
                                     self.tree[cur_ix].item.end = self.tree[scan_ix].item.end;
                                     self.tree[cur_ix].next = self.tree[scan_ix].next;
