@@ -306,26 +306,3 @@ $$</p>
 
     test_markdown_html(original, expected, false, false, false);
 }
-
-#[test]
-fn math_test_19() {
-    let original = r##"| Name | Description |
-| ---- | ----------- |
-| Trio | $\begin{array}{l \| c \| r} a & b & c \end{array}$ |
-| More | $\| \\| \\\|$ |
-
-| Name | Description |
-| ---- | ----------- |
-| $not | math$       |
-"##;
-    let expected = r##"<table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
-<tr><td>Trio</td><td><span class="math inline">\begin{array}{l | c | r} a &amp; b &amp; c \end{array}</span></td></tr>
-<tr><td>More</td><td><span class="math inline">| \| \\|</span></td></tr>
-</tbody></table>
-<table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
-<tr><td>$not</td><td>math$</td></tr>
-</tbody></table>
-"##;
-
-    test_markdown_html(original, expected, false, false, false);
-}

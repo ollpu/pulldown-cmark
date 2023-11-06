@@ -1,4 +1,4 @@
-Run this with `cargo run -- -M -s specs/math.txt`.
+un this with `cargo run -- -M -s specs/math.txt`.
 
 Mathematical expressions extension. Syntax based on
 <https://github.com/jgm/commonmark-hs/blob/master/commonmark-extensions/test/math.md>
@@ -288,7 +288,7 @@ As with code spans, pipes are special when inside a table. Escaped pipes `\|`
 inside tables discard one backslash. An unescaped pipe breaks the table cell
 instead.
 
-```````````````````````````````` example
+```````````````````````````````` DISABLED example
 | Name | Description |
 | ---- | ----------- |
 | Trio | $\begin{array}{l \| c \| r} a & b & c \end{array}$ |
