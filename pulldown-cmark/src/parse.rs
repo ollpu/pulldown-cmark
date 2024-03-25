@@ -1085,14 +1085,25 @@ impl<'input, F: BrokenLinkCallback<'input>> Parser<'input, F> {
         });
         let is_display = start_is_display.is_some() && end_is_display.is_some();
         if is_display {
-            // This unwrap() can't panic, because if the next variable were None, end_is_display would be None
-            close = self.tree[close].next.unwrap();
+            // These unwrap()s can't panic, because if the next variables were None, the _is_display values would be false
+            let (open_next, close_next) = (
+                self.tree[open].next.unwrap(),
+                self.tree[close].next.unwrap(),
+            );
+            if self.tree[open_next].item.end == self.tree[close].item.start {
+                // math spans cannot be empty
+                self.tree[open].item.body = ItemBody::Text {
+                    backslash_escaped: false,
+                };
+                return;
+            }
+            close = close_next;
             self.tree[open].next = Some(close);
             self.tree[open].item.end += 1;
             self.tree[close].item.start -= 1;
         } else {
             if self.tree[open].item.end == self.tree[close].item.start {
-                // inline math spans cannot be empty
+                // math spans cannot be empty
                 self.tree[open].item.body = ItemBody::Text {
                     backslash_escaped: false,
                 };

@@ -38,7 +38,7 @@ fn math_test_3() {
 $$$$
 "##;
     let expected = r##"<p>Oops empty $$ expression.</p>
-<p><span class="math math-display"></span></p>
+<p>$$$$</p>
 "##;
 
     test_markdown_html(original, expected, false, false, false);
@@ -52,9 +52,9 @@ $x$$$$$$y$$
 
 $$x$$$$$$y$$
 "##;
-    let expected = r##"<p><span class="math math-inline">x</span><span class="math math-display"></span><span class="math math-display">y</span></p>
-<p><span class="math math-inline">x</span><span class="math math-display"></span><span class="math math-inline">y</span>$</p>
-<p><span class="math math-display">x</span><span class="math math-display"></span>y$$</p>
+    let expected = r##"<p><span class="math math-inline">x</span>$$$$<span class="math math-display">y</span></p>
+<p><span class="math math-inline">x</span>$$$<span class="math math-display">y</span></p>
+<p><span class="math math-display">x</span>$$<span class="math math-display">y</span></p>
 "##;
 
     test_markdown_html(original, expected, false, false, false);
@@ -396,9 +396,6 @@ $$\text{first $$ second}$$
 
 $$$\text{first $$ second}$$
 
-This is also display math, but (counterintuitively) it's allowed to be empty
-and expected to be as short as possible:
-
 $$$$\text{first $$ second}$$
 "##;
     let expected = r##"<p>This is not display math. It is inline math:</p>
@@ -407,9 +404,7 @@ $$$$\text{first $$ second}$$
 <p>This is display math:</p>
 <p><span class="math math-display">\text{first $$ second}</span></p>
 <p>$<span class="math math-display">\text{first $$ second}</span></p>
-<p>This is also display math, but (counterintuitively) it's allowed to be empty
-and expected to be as short as possible:</p>
-<p><span class="math math-display"></span>\text{first $$ second}$$</p>
+<p>$$<span class="math math-display">\text{first $$ second}</span></p>
 "##;
 
     test_markdown_html(original, expected, false, false, false);
@@ -430,7 +425,7 @@ $}$] $$
     let expected = r##"<p><span class="math math-inline">\text{\$}</span></p>
 <p>$<span class="math math-inline">x</span>x$$</p>
 <p>${<span class="math math-inline">^</span>$</p>
-<p>$}<span class="math math-display"></span></p>
+<p>$}$$$$</p>
 <p>$}$] $$</p>
 "##;
 

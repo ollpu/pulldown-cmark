@@ -27,7 +27,7 @@ $$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \
 <p><span class="math math-display">\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)</span></p>
 ````````````````````````````````
 
-Inline math expressions cannot be empty, but display mode expressions can.
+Neither inline nor display math expressions can be empty.
 
 ```````````````````````````````` example
 Oops empty $$ expression.
@@ -35,7 +35,7 @@ Oops empty $$ expression.
 $$$$
 .
 <p>Oops empty $$ expression.</p>
-<p><span class="math math-display"></span></p>
+<p>$$$$</p>
 ````````````````````````````````
 
 This is a greedy, left-to-right parser.
@@ -47,9 +47,9 @@ $x$$$$$$y$$
 
 $$x$$$$$$y$$
 .
-<p><span class="math math-inline">x</span><span class="math math-display"></span><span class="math math-display">y</span></p>
-<p><span class="math math-inline">x</span><span class="math math-display"></span><span class="math math-inline">y</span>$</p>
-<p><span class="math math-display">x</span><span class="math math-display"></span>y$$</p>
+<p><span class="math math-inline">x</span>$$$$<span class="math math-display">y</span></p>
+<p><span class="math math-inline">x</span>$$$<span class="math math-display">y</span></p>
+<p><span class="math math-display">x</span>$$<span class="math math-display">y</span></p>
 ````````````````````````````````
 
 Math expressions pass their content through as-is, ignoring any other inline
@@ -361,9 +361,6 @@ $$\text{first $$ second}$$
 
 $$$\text{first $$ second}$$
 
-This is also display math, but (counterintuitively) it's allowed to be empty
-and expected to be as short as possible:
-
 $$$$\text{first $$ second}$$
 .
 <p>This is not display math. It is inline math:</p>
@@ -372,9 +369,7 @@ $$$$\text{first $$ second}$$
 <p>This is display math:</p>
 <p><span class="math math-display">\text{first $$ second}</span></p>
 <p>$<span class="math math-display">\text{first $$ second}</span></p>
-<p>This is also display math, but (counterintuitively) it's allowed to be empty
-and expected to be as short as possible:</p>
-<p><span class="math math-display"></span>\text{first $$ second}$$</p>
+<p>$$<span class="math math-display">\text{first $$ second}</span></p>
 ````````````````````````````````
 
 Dollar signs must also be backslash-escaped if they occur within math:
@@ -393,7 +388,7 @@ $}$] $$
 <p><span class="math math-inline">\text{\$}</span></p>
 <p>$<span class="math math-inline">x</span>x$$</p>
 <p>${<span class="math math-inline">^</span>$</p>
-<p>$}<span class="math math-display"></span></p>
+<p>$}$$$$</p>
 <p>$}$] $$</p>
 ````````````````````````````````
 
